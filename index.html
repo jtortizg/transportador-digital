@@ -57,15 +57,29 @@ body[data-layout="horizontal"] details[open]>summary{position:sticky;top:-12px;b
 body[data-layout="horizontal"] footer{display:none}
 .horizontal-note{display:none}
 body[data-layout="horizontal"] .horizontal-note{display:block}
+
+.sensor-group{grid-column:1/-1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.resolution{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.resolution button{font-size:.8rem;padding:8px;min-height:44px}
+.resolution button[aria-pressed="true"]{background:#F5A680;color:#002147}
+body[data-layout="horizontal"] .card{grid-template-areas:"modes modes" "help controls" "status controls" "reading controls" "gauge controls"}
+body[data-layout="horizontal"] .controls{grid-template-areas:"sensor zero" "sensor hold" "sensor reset";grid-template-rows:repeat(3,minmax(36px,1fr));gap:6px}
+body[data-layout="horizontal"] .sensor-group{grid-area:sensor;grid-column:auto;justify-content:center;gap:6px}
+body[data-layout="horizontal"] #zero{grid-area:zero}
+body[data-layout="horizontal"] #hold{grid-area:hold}
+body[data-layout="horizontal"] #reset{grid-area:reset}
+body[data-layout="horizontal"] .controls button{min-height:36px;font-size:.75rem;padding:5px}
+body[data-layout="horizontal"] .resolution{gap:4px}
+body[data-layout="horizontal"] .resolution button{font-size:.7rem;min-height:44px}
 </style></head><body data-layout="vertical"><div id="app-view"><main>
-<header><div><div class="eyebrow">FÍSICA · MEDICIÓN</div><h1>Transportador digital <small class="version">v4.1</small></h1></div><button id="night" aria-pressed="false">Modo nocturno</button></header>
+<header><div><div class="eyebrow">FÍSICA · MEDICIÓN</div><h1>Transportador digital <small class="version">v4.2</small></h1></div><button id="night" aria-pressed="false">Modo nocturno</button></header>
 <section class="card" aria-label="Instrumento"><div class="modes" role="group" aria-label="Posición del teléfono"><button data-mode="vertical" aria-pressed="true">Vertical<small>Borde inferior</small></button><button data-mode="horizontal" aria-pressed="false">Horizontal<small>Borde largo</small></button><button data-mode="flat" aria-pressed="false">Acostado<small>Pantalla arriba</small></button></div>
 <p id="help" class="note"></p><p id="status" role="status">Activa los sensores para comenzar.</p><div class="reading"><output id="angle" aria-label="Ángulo de inclinación">—°</output><span id="reference"></span></div>
 <svg viewBox="0 0 320 185" aria-hidden="true"><path class="track" d="M25 160 A135 135 0 0 1 295 160 M25 160 H295"/><g id="ticks"></g><line id="needle" x1="160" y1="160" x2="280" y2="160" visibility="hidden"/><circle cx="160" cy="160" r="7" fill="var(--accent)"/><text x="283" y="181">0°</text><text x="149" y="18">90°</text><text x="10" y="181">180°</text></svg>
 <div id="components" class="components" hidden><div><span>Adelante / atrás</span><output id="pitch">—°</output></div><div><span>Izquierda / derecha</span><output id="roll">—°</output></div></div>
-<div class="controls"><button id="start">Activar sensores</button><button id="zero" disabled aria-pressed="false">Calibrar a cero</button><button id="hold" disabled aria-pressed="false">Congelar lectura</button><button id="reset" disabled>Restaurar horizontal</button></div>
-</section><details><summary>Cómo usar los tres modos</summary><ul><li><strong>Horizontal:</strong> teléfono de costado, sobre un borde largo. Mide la inclinación de ese borde.</li><li><strong>Vertical:</strong> teléfono de pie sobre el borde inferior corto. Mide la inclinación del borde inferior, no cuánto se aparta la pantalla de la vertical.</li><li><strong>Acostado:</strong> parte posterior apoyada y pantalla arriba. Mide la inclinación total del plano del teléfono. Las componentes corresponden a los ejes físicos del teléfono en su posición vertical habitual: positivo hacia su extremo superior y hacia su lado derecho.</li></ul><p class="note">Evita apoyar botones, cámaras sobresalientes o una funda irregular. Espera a que la lectura se estabilice antes de calibrar. Cambiar de modo borra la referencia y libera la lectura congelada. Los botones cambian la interfaz incluso con los sensores apagados. Horizontal muestra todos los controles en una vista apaisada; Vertical restaura la vista de pie. Acostado utiliza la disposición vertical habitual. Si ves la interfaz de costado, gira físicamente el teléfono para leerla. En horizontal, abre «Cómo usar los tres modos» para consultar la ayuda; vuelve a pulsar el título para cerrarla. El cambio visual no modifica los ejes físicos de medición.</p><p class="note">Calibrar a cero resta la inclinación inicial. En modo acostado compara magnitudes de pendiente y resta por separado las componentes: no mide el ángulo tridimensional entre planos. Para comparar, conserva el mismo sentido de apoyo. Sin referencia, el ángulo principal va de 0° a 90°; la diferencia de inclinaciones de los bordes puede alcanzar 180°.</p><p class="note">Si se deniega el permiso en Chrome Android: Configuración → Configuración de sitios → Sensores de movimiento. Permite el acceso a este sitio y recarga. Abre su enlace HTTPS directamente en el navegador.</p><p class="note horizontal-note">Visualización de 0,01°; no garantiza exactitud de ±0,01°. Datos procesados en el dispositivo. Versión 4.1.</p></details>
-<footer class="note">Versión 4.1 · Interfaz por botones. Visualización de 0,01°; no garantiza exactitud de ±0,01°. Datos procesados en el dispositivo. Diseñado para smartphones cuya orientación natural es vertical.</footer>
+<div class="controls"><div class="sensor-group"><button id="start">Activar sensores</button><div class="resolution" role="group" aria-label="Resolución de lectura"><button data-digits="0" aria-pressed="false">Lectura de 1°</button><button data-digits="1" aria-pressed="true">Lectura de 0,1°</button></div></div><button id="zero" disabled aria-pressed="false">Calibrar a cero</button><button id="hold" disabled aria-pressed="false">Congelar lectura</button><button id="reset" disabled>Restaurar horizontal</button></div>
+</section><details><summary>Cómo usar los tres modos</summary><ul><li><strong>Horizontal:</strong> teléfono de costado, sobre un borde largo. Mide la inclinación de ese borde.</li><li><strong>Vertical:</strong> teléfono de pie sobre el borde inferior corto. Mide la inclinación del borde inferior, no cuánto se aparta la pantalla de la vertical.</li><li><strong>Acostado:</strong> parte posterior apoyada y pantalla arriba. Mide la inclinación total del plano del teléfono. Las componentes corresponden a los ejes físicos del teléfono en su posición vertical habitual: positivo hacia su extremo superior y hacia su lado derecho.</li></ul><p class="note">Evita apoyar botones, cámaras sobresalientes o una funda irregular. Espera a que la lectura se estabilice antes de calibrar. Cambiar de modo borra la referencia y libera la lectura congelada. Los botones cambian la interfaz incluso con los sensores apagados. Horizontal muestra todos los controles en una vista apaisada; Vertical restaura la vista de pie. Acostado utiliza la disposición vertical habitual. Si ves la interfaz de costado, gira físicamente el teléfono para leerla. En horizontal, abre «Cómo usar los tres modos» para consultar la ayuda; vuelve a pulsar el título para cerrarla. El cambio visual no modifica los ejes físicos de medición.</p><p class="note">Calibrar a cero resta la inclinación inicial. En modo acostado compara magnitudes de pendiente y resta por separado las componentes: no mide el ángulo tridimensional entre planos. Para comparar, conserva el mismo sentido de apoyo. Sin referencia, el ángulo principal va de 0° a 90°; la diferencia de inclinaciones de los bordes puede alcanzar 180°.</p><p class="note">Si se deniega el permiso en Chrome Android: Configuración → Configuración de sitios → Sensores de movimiento. Permite el acceso a este sitio y recarga. Abre su enlace HTTPS directamente en el navegador.</p><p class="note horizontal-note">Lectura seleccionable de 1° o 0,1°; la resolución mostrada no garantiza esa exactitud. Datos procesados en el dispositivo. Versión 4.2.</p></details>
+<footer class="note">Versión 4.2 · Interfaz por botones. Lectura seleccionable de 1° o 0,1°; la resolución mostrada no garantiza esa exactitud. Datos procesados en el dispositivo. Diseñado para smartphones cuya orientación natural es vertical.</footer>
 </main></div><script>
 // La interfaz tiene su propio controlador: funciona aun sin sensores o permisos.
 (function(){
@@ -88,7 +102,14 @@ function measures(v){const [x,y,z]=v;return {horizontal:Math.asin(clamp(y))*D,ve
 function normalize(v){const n=Math.hypot(...v);return n>1e-8?v.map(x=>x/n):null;}
 let mode='vertical',active=false,starting=false,frozen=false,filtered=null,reference=null,last=0,started=0,samples=[];
 const descriptions={horizontal:'Apoya un borde largo sobre la superficie, con el teléfono de costado.',vertical:'Apoya el borde inferior corto sobre la superficie, con el teléfono de pie.',flat:'Apoya la parte posterior sobre la superficie, con la pantalla hacia arriba.'};
-const fmt=n=>(Math.abs(n)<.005?0:n).toLocaleString('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2})+'°';
+let digits=1, displayed=null;
+const fmt=n=>{const rounded=Number(n.toFixed(digits));return (Object.is(rounded,-0)?0:rounded).toLocaleString('es-CL',{minimumFractionDigits:digits,maximumFractionDigits:digits})+'°';};
+function formatReading(){if(!displayed)return;$('angle').textContent=fmt(displayed.angle);$('pitch').textContent=fmt(displayed.pitch);$('roll').textContent=fmt(displayed.roll);}
+document.querySelectorAll('[data-digits]').forEach(button=>button.addEventListener('click',()=>{
+ digits=Number(button.dataset.digits);
+ document.querySelectorAll('[data-digits]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+ formatReading();
+}));
 const fresh=()=>active&&last>0&&performance.now()-last<2000;
 function stable(){return samples.length>=6&&samples.at(-1).t-samples[0].t>=650&&Math.max(...samples.map(s=>Math.hypot(...s.v.map((v,i)=>v-samples[0].v[i]))))<.005;}
 
@@ -98,9 +119,9 @@ function render(){
  $('zero').disabled=!fresh()||frozen;$('hold').disabled=!fresh()&&!frozen;$('reset').disabled=!reference;
  $('zero').setAttribute('aria-pressed',String(!!reference));$('hold').setAttribute('aria-pressed',String(frozen));$('hold').textContent=frozen?'Reanudar lectura':'Congelar lectura';
  if(frozen)return;
- if(!fresh()||!filtered){$('angle').textContent='—°';$('pitch').textContent=$('roll').textContent='—°';$('needle').setAttribute('visibility','hidden');return;}
+ if(!fresh()||!filtered){displayed=null;$('angle').textContent='—°';$('pitch').textContent=$('roll').textContent='—°';$('needle').setAttribute('visibility','hidden');return;}
  const m=measures(filtered),angle=Math.abs(m[mode]-(reference?.[mode]??0));
- $('angle').textContent=fmt(angle);$('pitch').textContent=fmt(m.pitch-(reference?.pitch??0));$('roll').textContent=fmt(m.roll-(reference?.roll??0));
+ displayed={angle,pitch:m.pitch-(reference?.pitch??0),roll:m.roll-(reference?.roll??0)};formatReading();
  $('needle').setAttribute('x2',160+120*Math.cos(angle/D));$('needle').setAttribute('y2',160-120*Math.sin(angle/D));$('needle').setAttribute('visibility','visible');
 }
 function sensor(e){
